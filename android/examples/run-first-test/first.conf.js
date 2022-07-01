@@ -1,6 +1,6 @@
 exports.config = {
-  user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
-  key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
+  user: process.env.BROWSERSTACK_USERNAME || 'paulmalhotra_Ub2WQ9',
+  key: process.env.BROWSERSTACK_ACCESS_KEY || 'muLfADupJkRsaFoxMDyz',
 
   updateJob: false,
   specs: [
@@ -14,9 +14,23 @@ exports.config = {
     name: 'first_test',
     device: 'Google Pixel 3',
     os_version: "9.0",
-    app: process.env.BROWSERSTACK_APP_ID || 'bs://<hashed app-id>',
+    app: process.env.BROWSERSTACK_APP_ID || 'bs://4d58bb5a5a7934a43977d1ad22859a4553b68af3',
+    'browserstack.networkLogs': 'true',
+    //'browserstack.local': true,
     'browserstack.debug': true
+   // "browserstack.geoLocation": "GB"
   }],
+
+//capabilities : [{
+//"os_version": "9.0",
+//"device": "Google Pixel 3",
+//"app": "bs://4d58bb5a5a7934a43977d1ad22859a4553b68af3",
+//"project": "login screen ",
+//"browserstack.user" : "paulmalhotra_Ub2WQ9",
+//"browserstack.key" : "muLfADupJkRsaFoxMDyz"
+//}],
+
+
 
   logLevel: 'info',
   coloredLogs: true,
@@ -29,6 +43,6 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 20000
+    timeout: 100000
   }
 };

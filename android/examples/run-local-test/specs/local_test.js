@@ -1,32 +1,55 @@
-var path = require('path');
 var assert = require('assert');
 
-describe('BrowserStack Local Testing', () => {
-  it('can check tunnel working', async () => {
-    var searchSelector = await $('android=new UiSelector().resourceId("com.example.android.basicnetworking:id/test_action")');
-    await searchSelector.waitForDisplayed({ timeout: 30000 });
-    await searchSelector.click();
+describe('login Verification', () => {
+    //Privacy Screen
+  it('test1 ', async () => {
+  console.log ("HELOOOOOOOOOOOOOOOOOOOO");
+    if (driver.isKeyboardShown()) {
+          driver.hideKeyboard();
+        }
+    var privacyScreenButton = await $('android.widget.FrameLayout');
+    await privacyScreenButton.waitForDisplayed({ timeout: 30000 });
+    await privacyScreenButton.click();
 
-    var insertTextSelector = await $(`android.widget.TextView`);
-    await insertTextSelector.waitForDisplayed({ timeout: 30000 });
+    //Coronavirus Update Screen
+    var CoronavirusUpdateScreen = await $('//android.widget.TextView[@resource-id="com.whitbread.premierinn.stage:id/tv_call_to_action_button_text"]');
+    await CoronavirusUpdateScreen.waitForDisplayed({ timeout: 30000 });
+    await CoronavirusUpdateScreen.click();
 
-    var testElement = null;
+    //My account screen
+    var accountScreenButton = await $('//android.widget.TextView[@text="Account"]');
+    await accountScreenButton.waitForDisplayed({ timeout: 30000 });
+    await accountScreenButton.click();
 
-    try {
-      var textElement = await $('android=new UiSelector().textContains("active connection is")');
-      await textElement.waitForDisplayed({ timeout: 30000 });
-      testElement = textElement;
-    }
-    catch {
-      var screenshotPath = path.resolve(__dirname, 'screenshot.png');
-      await browser.saveScreenshot(screenshotPath);
-      console.log('Screenshot stored at ' + screenshotPath);
-      throw new Error('Cannot find the needed TextView element from app');
-    }
+    var accountScreenButton = await $('//android.widget.TextView[@resource-id="com.whitbread.premierinn.stage:id/tv_call_to_action_button_text"]');
+    await accountScreenButton.waitForDisplayed({ timeout: 30000 });
+    await accountScreenButton.click();
 
-    var matchedString = await testElement.getText();
-    console.log(matchedString);
-    assert(matchedString.indexOf('The active connection is wifi') !== -1);
-    assert(matchedString.indexOf('Up and running') !== -1);
+    // login account screen
+
+    var loginUserName = await $('//android.widget.EditText[@resource-id="com.whitbread.premierinn.stage:id/account_login_email_input"]');
+    await loginUserName.waitForDisplayed({ timeout: 30000 });
+    await loginUserName.click()
+    await loginUserName.addValue("ali.celik@whitbread.com");
+
+    var loginPassword = await $('//android.widget.EditText[@resource-id="com.whitbread.premierinn.stage:id/account_login_password_input"]');
+    await loginPassword.waitForDisplayed({ timeout: 30000 });
+    await loginPassword.click()
+    await loginPassword.addValue("Premier1");
+    await browser.pause(10000);
+
+
+    var loginButton = await $('//android.widget.TextView[@resource-id="com.whitbread.premierinn.stage:id/tv_call_to_action_button_text"]');
+    await loginButton.waitForDisplayed({ timeout: 30000 });
+    await loginButton.click();
+
+    // var textOutput = await $('~Text Output');
+    // await textOutput.waitForDisplayed({ timeout: 30000 });
+    // var value = await textOutput.getText();
+
+    // if (value === "ali.celik@whitbread.com")
+    //   assert(true)
+    // else
+    //   assert(false)
   });
 });
