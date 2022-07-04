@@ -1,64 +1,40 @@
-var browserstack = require('browserstack-local');
+const path = require('path');
+//const { config } = require('./conf');
 
-exports.config = {
-  user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
-  key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
+// ====================
+// Runner Configuration
+// ====================
+//
+port = 4723;
 
-  updateJob: false,
-  specs: [
-    './examples/run-local-test/specs/local_test.js'
-  ],
-  exclude: [],
+//
+// ============
+// Specs
+// ============
+specs = [
+  './examples/run-local-test/specs/local_test.js'
+];
 
-  capabilities: [{
-    project: "First Webdriverio Android Project",
-    build: 'Webdriverio Android Local',
-    name: 'local_test',
-    device: 'Google Pixel 3',
-    os_version: "9.0",
-    app: process.env.BROWSERSTACK_APP_ID || 'bs://<hashed app-id>',
-    'browserstack.local': true,
-    'browserstack.debug': true
-  }],
-
-  logLevel: 'info',
-  coloredLogs: true,
-  screenshotPath: './errorShots/',
-  baseUrl: '',
-  waitforTimeout: 10000,
-  connectionRetryTimeout: 90000,
-  connectionRetryCount: 3,
-
-  framework: 'mocha',
-  mochaOpts: {
-    ui: 'bdd',
-    timeout: 20000
-  },
-
-  // Code to start browserstack local before start of test
-  onPrepare: (config, capabilities) => {
-    console.log("Connecting local");
-    return new Promise( (resolve, reject) => {
-      exports.bs_local = new browserstack.Local();
-      exports.bs_local.start({'key': exports.config.key }, (error) => {
-        if (error) return reject(error);
-        console.log('Connected. Now testing...');
-
-        resolve();
-      });
-    });
-  },
-
-  // Code to stop browserstack local after end of test
-  onComplete: (capabilties, specs) => {
-    console.log("Closing local tunnel");
-    return new Promise( (resolve, reject) => {
-      exports.bs_local.stop( (error) => {
-        if (error) return reject(error);
-        console.log("Stopped BrowserStackLocal");
-
-        resolve();
-      });
-    });
+//
+// ============
+// Capabilities
+// ============
+capabilities = [
+  {
+    platformName: "Android",
+    "appium:platformVersion": "11.0",
+    "appium:deviceName": "Pixel 3",
+    "appium:automationName": "UIAutomator2",
+    "appium:app": path.join(process.cwd(), "./app/android/3.29.4(5957).apk"),
+    "appium:autoGrantPermissions": true
   }
-};
+]
+
+//
+// Test runner services
+// Services take over a specific job you don't want to take care of. They enhance
+// your test setup with almost no effort. Unlike plugins, they don't add new
+// commands. Instead, they hook themselves up into the test process.
+//config.services['appium'];
+
+//exports.config = config;
